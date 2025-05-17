@@ -1,0 +1,70 @@
+# Archivos y directorios de Git
+.git
+.gitignore
+
+# Archivos de Visual Studio
+.vs/
+.vscode/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Archivos de compilación
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Archivos de NuGet
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+
+# Archivos de prueba
+**/*.[Pp]roject.user
+**/*.[Tt]est[sS]uite/
+**/*.[Tt]est[sS]uite.*
+**/*.[Tt]est[sS]uite.*.user
+**/*.[Tt]est[sS]uite.*.userosscache
+**/*.[Tt]est[sS]uite.*.suo
+**/*.[Tt]est[sS]uite.*.userprefs
+
+# Archivos temporales
+*.swp
+*.*~
+project.lock.json
+.DS_Store
+*.pyc
+nupkg/
+
+# Archivos de configuración local
+appsettings.Development.json
+appsettings.Local.json
+*.Development.json
+*.Local.json
+
+# Archivos de documentación
+*.md
+!README.md
+docs/
+*.txt
+!LICENSE.txt
+
+# Otros
+*.zip
+*.tar.gz
+*.rar
+*.7z
