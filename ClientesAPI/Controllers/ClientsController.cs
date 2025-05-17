@@ -22,7 +22,7 @@ namespace ClientesAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id }, new { Id = id });
         }
 
-        [HttpGet("{id:guid}")]
+        [HttpGet("{id:id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var client = await _service.GetByIdAsync(id);
@@ -37,14 +37,14 @@ namespace ClientesAPI.Controllers
             return Ok(clients);
         }
 
-        [HttpPut("{id:guid}")]
+        [HttpPut("{id:id}")]
         public async Task<IActionResult> Update(int id, [FromBody] ClientUpdateDto dto)
         {
             await _service.UpdateAsync(id, dto);
             return NoContent();
         }
 
-        [HttpDelete("{id:guid}")]
+        [HttpDelete("{id:id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await _service.DeleteAsync(id);
