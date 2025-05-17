@@ -8,7 +8,7 @@ namespace Application.DTOs
 {
     public class ClientDto
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string FullName { get; set; }
         public string IdentificationNumber { get; set; }
         public string IdentificationType { get; set; }

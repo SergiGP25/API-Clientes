@@ -32,7 +32,7 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Client> GetByIdAsync(Guid id)
+        public async Task<Client> GetByIdAsync(int id)
         {
             return await _context.Clients.FindAsync(id);
         }

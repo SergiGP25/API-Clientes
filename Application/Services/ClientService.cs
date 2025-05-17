@@ -21,7 +21,7 @@ namespace Application.Services
             _repository = repository;
         }
 
-        public async Task<Guid> CreateAsync(ClientCreateDto dto)
+        public async Task<int> CreateAsync(ClientCreateDto dto)
         {
             var client = new Client(
                 dto.FullName,
@@ -36,7 +36,7 @@ namespace Application.Services
             return client.Id;
         }
 
-        public async Task UpdateAsync(Guid id, ClientUpdateDto dto)
+        public async Task UpdateAsync(int id, ClientUpdateDto dto)
         {
             var client = await _repository.GetByIdAsync(id);
             if (client == null) throw new DomainException("Cliente no encontrado.");
@@ -45,7 +45,7 @@ namespace Application.Services
             await _repository.UpdateAsync(client);
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(int id)
         {
             var client = await _repository.GetByIdAsync(id);
             if (client == null) throw new DomainException("Cliente no encontrado.");
@@ -53,7 +53,7 @@ namespace Application.Services
             await _repository.DeleteAsync(client);
         }
 
-        public async Task<ClientDto> GetByIdAsync(Guid id)
+        public async Task<ClientDto> GetByIdAsync(int id)
         {
             var client = await _repository.GetByIdAsync(id);
             if (client == null) return null;

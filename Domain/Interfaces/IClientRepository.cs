@@ -12,7 +12,7 @@ namespace Domain.Interfaces
         Task AddAsync(Client client);
         Task UpdateAsync(Client client);
         Task DeleteAsync(Client client);
-        Task<Client> GetByIdAsync(Guid id);
+        Task<Client> GetByIdAsync(int id);
         Task<IEnumerable<Client>> GetAllAsync();
     }
 }

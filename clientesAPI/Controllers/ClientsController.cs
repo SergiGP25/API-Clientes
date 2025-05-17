@@ -23,7 +23,7 @@ namespace ClientesAPI.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetById(Guid id)
+        public async Task<IActionResult> GetById(int id)
         {
             var client = await _service.GetByIdAsync(id);
             if (client == null) return NotFound();
@@ -38,14 +38,14 @@ namespace ClientesAPI.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] ClientUpdateDto dto)
+        public async Task<IActionResult> Update(int id, [FromBody] ClientUpdateDto dto)
         {
             await _service.UpdateAsync(id, dto);
             return NoContent();
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(int id)
         {
             await _service.DeleteAsync(id);
             return NoContent();

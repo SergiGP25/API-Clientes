@@ -9,10 +9,10 @@ namespace Application.Interfaces
 {
     public interface IClientService
     {
-        Task<Guid> CreateAsync(ClientCreateDto dto);
-        Task UpdateAsync(Guid id, ClientUpdateDto dto);
-        Task DeleteAsync(Guid id);
-        Task<ClientDto> GetByIdAsync(Guid id);
+        Task<int> CreateAsync(ClientCreateDto dto);
+        Task UpdateAsync(int id, ClientUpdateDto dto);
+        Task DeleteAsync(int id);
+        Task<ClientDto> GetByIdAsync(int id);
         Task<IEnumerable<ClientDto>> GetAllAsync();
     }
 }
