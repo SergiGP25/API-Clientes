@@ -24,7 +24,7 @@ namespace Domain.Entities
             if (string.IsNullOrWhiteSpace(fullName)) throw new DomainException("El nombre es requerido.");
             if (string.IsNullOrWhiteSpace(identificationNumber)) throw new DomainException("El número de identificación es requerido.");
             if (string.IsNullOrWhiteSpace(email)) throw new DomainException("El correo electrónico es requerido.");
-            if (age < 0 || age > 120) throw new DomainException("La edad no es válida.");
+            if (age < 0 || age > 99) throw new DomainException("La edad no es válida.");
             if (string.IsNullOrWhiteSpace(phoneNumber)) throw new DomainException("El número de teléfono es requerido.");
 
             FullName = fullName;
@@ -39,7 +39,7 @@ namespace Domain.Entities
         {
             if (!string.IsNullOrWhiteSpace(fullName)) FullName = fullName;
             if (!string.IsNullOrWhiteSpace(email)) Email = email;
-            if (age > 0 && age < 120) Age = age;
+            if (age > 0 && age < 99) Age = age;
             if (!string.IsNullOrWhiteSpace(phoneNumber)) PhoneNumber = phoneNumber;
         }
     }

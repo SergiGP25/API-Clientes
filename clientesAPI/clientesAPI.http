@@ -1,6 +1,6 @@
-@clientesAPI_HostAddress = http://localhost:5097
+@ClientesAPI_HostAddress = http://localhost:5032
 
-GET {{clientesAPI_HostAddress}}/weatherforecast/
+GET {{ClientesAPI_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
