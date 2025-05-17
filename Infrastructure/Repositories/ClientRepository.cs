@@ -28,7 +28,8 @@ namespace Infrastructure.Repositories
 
         public async Task DeleteAsync(Client client)
         {
-            _context.Clients.Remove(client);
+            client.IsDelitedClient();
+            _context.Clients.Update(client);
             await _context.SaveChangesAsync();
         }
 

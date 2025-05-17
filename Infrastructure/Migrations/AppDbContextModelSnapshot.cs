@@ -50,6 +50,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("IdentificationType")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(20)

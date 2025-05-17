@@ -22,6 +22,7 @@ namespace Domain.Entities
         public string Email { get; private set; }
         public int Age { get; private set; }
         public string PhoneNumber { get; private set; }
+        public bool IsDeleted { get; private set; }=false;
 
         public Client(string fullName, string identificationNumber, IdentificationType identificationType, string email, int age, string phoneNumber)
         {
@@ -45,6 +46,10 @@ namespace Domain.Entities
             if (!string.IsNullOrWhiteSpace(email)) Email = email;
             if (age > 0 && age < 99) Age = age;
             if (!string.IsNullOrWhiteSpace(phoneNumber)) PhoneNumber = phoneNumber;
+        }
+        public void IsDelitedClient()
+        {
+            IsDeleted = true;
         }
     }
 }
