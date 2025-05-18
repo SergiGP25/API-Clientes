@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.DTOs;
+using Domain.Enums;
 using FluentValidation;
 namespace Application.Validators
 {
@@ -21,7 +22,9 @@ namespace Application.Validators
                 .WithMessage("El número de identificación solo debe contener dígitos.");
 
             RuleFor(x => x.IdentificationType)
-                .IsInEnum();
+                .Must(value => Enum.IsDefined(typeof(IdentificationType), value))
+                .WithMessage("El tipo de identificación no es válido.");
+
 
             RuleFor(x => x.Email)
                 .NotEmpty()
