@@ -54,7 +54,7 @@ El proyecto incluye dos archivos principales para Docker:
 ### 1. Clonar el Repositorio
 
 ```bash
-git clone <url-del-repositorio>
+git clone https://github.com/SergiGP25/API-Clientes
 cd API-Clientes
 ```
 
@@ -71,7 +71,7 @@ docker-compose up -d --build
 ### 3. Verificar el Despliegue
 
 - API: http://localhost/swagger
-- Base de datos: localhost,1433
+- Base de datos: localhost:1433
   - Usuario: sa
   - Contraseña: YourStrong!Passw0rd
 
@@ -104,6 +104,22 @@ docker-compose ps
 ### 5. Migraciones
 
 Las migraciones de la base de datos se ejecutan automáticamente al iniciar la aplicación. No es necesario ejecutar comandos manualmente.
+
+## Migraciones en caso de cambios 
+
+Ejecutar en la terminal de la solucion general.
+dotnet ef migrations add InitialCreate --project Infrastructure --startup-project ClientesAPI
+
+dotnet ef database update --project Infrastructure --startup-project ClientesAPI
+
+## Montar la Base de datos de Docker en el local 
+ipconfig 
+Para saber la IP del PC la cual se coloca en el Servername del gestor.
+Usuario: sa
+Contraseña : YourStrong!Passw0rd
+
+Encriptacion: Optional 
+Check Trust Server certificate.
 
 ## Variables de Entorno
 

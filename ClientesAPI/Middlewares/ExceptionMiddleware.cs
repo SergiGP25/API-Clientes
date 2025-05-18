@@ -1,4 +1,5 @@
 ﻿using Domain.Exceptions;
+using FluentValidation;
 using System.Net;
 using System.Text.Json;
 
@@ -19,37 +20,50 @@ namespace ClientesAPI.Middlewares
         {
             try
             {
-                await _next(context); // continua con la petición
+                await _next(context);
+            }
+            catch (ValidationException vex) // FluentValidation
+            {
+                _logger.LogWarning(vex, "Error de validación");
+
+                var errorList = vex.Errors
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+
+                await WriteResponseAsync(context, HttpStatusCode.BadRequest, errorList);
             }
             catch (DomainException dex)
             {
-                _logger.LogWarning(dex, "Error de negocio");
-                await HandleExceptionAsync(context, HttpStatusCode.BadRequest, dex.Message);
+                _logger.LogWarning(dex, "Error de dominio");
+
+                await WriteResponseAsync(context, HttpStatusCode.BadRequest, new List<string> { dex.Message });
             }
             catch (KeyNotFoundException knf)
             {
                 _logger.LogWarning(knf, "Recurso no encontrado");
-                await HandleExceptionAsync(context, HttpStatusCode.NotFound, knf.Message);
+
+                await WriteResponseAsync(context, HttpStatusCode.NotFound, new List<string> { knf.Message });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error inesperado");
-                await HandleExceptionAsync(context, HttpStatusCode.InternalServerError, "Ocurrió un error inesperado.");
+
+                await WriteResponseAsync(context, HttpStatusCode.InternalServerError, new List<string> { "Ocurrió un error inesperado." });
             }
         }
 
-        private static Task HandleExceptionAsync(HttpContext context, HttpStatusCode statusCode, string message)
+        private async Task WriteResponseAsync(HttpContext context, HttpStatusCode statusCode, List<string> errors)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)statusCode;
 
-            var response = new
+            var result = JsonSerializer.Serialize(new
             {
                 status = (int)statusCode,
-                error = message
-            };
+                errors
+            });
 
-            return context.Response.WriteAsync(JsonSerializer.Serialize(response));
+            await context.Response.WriteAsync(result);
         }
     }
 }
