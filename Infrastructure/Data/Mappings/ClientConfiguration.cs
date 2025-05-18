@@ -14,14 +14,40 @@ namespace Infrastructure.Data.Mappings
         public void Configure(EntityTypeBuilder<Client> builder)
         {
             builder.ToTable("Clients");
+
             builder.HasKey(c => c.Id);
 
-            builder.Property(c => c.FullName).IsRequired().HasMaxLength(100);
-            builder.Property(c => c.IdentificationNumber).IsRequired().HasMaxLength(20);
-            builder.Property(c => c.IdentificationType).IsRequired();
-            builder.Property(c => c.Email).IsRequired().HasMaxLength(100);
-            builder.Property(c => c.PhoneNumber).IsRequired().HasMaxLength(20);
-            builder.Property(c => c.Age).IsRequired();
+            builder.Property(c => c.Name)
+                   .IsRequired()
+                   .HasMaxLength(100);
+
+            builder.Property(c => c.IdentificationNumber)
+                   .IsRequired()
+                   .HasMaxLength(20);
+
+            builder.Property(c => c.IdentificationType)
+                   .IsRequired();
+
+            builder.Property(c => c.Email)
+                   .IsRequired()
+                   .HasMaxLength(100);
+
+            builder.Property(c => c.Phone)
+                   .IsRequired()
+                   .HasMaxLength(20);
+
+            builder.Property(c => c.BirthDate)
+                   .IsRequired();
+
+            builder.Property(c => c.IsDeleted)
+                   .IsRequired();
+
+            builder.Property(c => c.CreatedAt)
+                   .IsRequired();
+
+            builder.Property(c => c.UpdatedAt)
+                   .IsRequired();
+            builder.Ignore(c => c.Age);
         }
     }
 }

@@ -8,12 +8,11 @@ namespace Application.DTOs
 {
     public class ClientCreateDto
     {
-        public string FullName { get; set; }
+        public string Name { get; set; }
         public string IdentificationNumber { get; set; }
         public int IdentificationType { get; set; }
         public string Email { get; set; }
-        public int Age { get; set; }
-        public string PhoneNumber { get; set; }
-        
+        public DateTime BirthDate { get; set; }
+        public string Phone { get; set; }
     }
 }

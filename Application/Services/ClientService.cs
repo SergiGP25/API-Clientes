@@ -20,12 +20,12 @@ namespace Application.Services
         public async Task<int> CreateAsync(ClientCreateDto dto)
         {
             var client = new Client(
-                dto.FullName,
+                dto.Name,
                 dto.IdentificationNumber,
                 (IdentificationType)dto.IdentificationType,
                 dto.Email,
-                dto.Age,
-                dto.PhoneNumber
+                dto.BirthDate,
+                dto.Phone
             );
 
             await _repository.AddAsync(client);
@@ -37,7 +37,7 @@ namespace Application.Services
             var client = await _repository.GetByIdAsync(id);
             if (client == null) throw new DomainException("Cliente no encontrado.");
 
-            client.Update(dto.FullName, dto.Email, dto.Age, dto.PhoneNumber);
+            client.Update(dto.Name, dto.Email, dto.BirthDate, dto.Phone);
             await _repository.UpdateAsync(client);
         }
 
@@ -68,12 +68,14 @@ namespace Application.Services
             return new ClientDto
             {
                 Id = client.Id,
-                FullName = client.FullName,
+                Name = client.Name,
                 IdentificationNumber = client.IdentificationNumber,
                 IdentificationType = client.IdentificationType.ToString(),
                 Email = client.Email,
                 Age = client.Age,
-                PhoneNumber = client.PhoneNumber
+                Phone = client.Phone,
+                CreatedAt = client.CreatedAt,
+                UpdatedAt = client.UpdatedAt
             };
         }
     }

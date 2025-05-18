@@ -12,44 +12,53 @@ namespace Domain.Entities
 {
     public class Client
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; private set; } 
-
-        public string FullName { get; private set; }
+        public int Id { get; private set; }
+        public string Name { get; private set; }
         public string IdentificationNumber { get; private set; }
         public IdentificationType IdentificationType { get; private set; }
         public string Email { get; private set; }
-        public int Age { get; private set; }
-        public string PhoneNumber { get; private set; }
-        public bool IsDeleted { get; private set; }=false;
+        public DateTime BirthDate { get; private set; }
+        public string Phone { get; private set; }
 
-        public Client(string fullName, string identificationNumber, IdentificationType identificationType, string email, int age, string phoneNumber)
+        public DateTime CreatedAt { get; private set; }
+        public DateTime UpdatedAt { get; private set; }
+        public bool IsDeleted { get; private set; }
+
+        public int Age => DateTime.Today.Year - BirthDate.Year -
+                         (DateTime.Today.DayOfYear < BirthDate.DayOfYear ? 1 : 0);
+
+        public Client(string name, string identificationNumber, IdentificationType identificationType, string email, DateTime birthDate, string phone)
         {
-            if (string.IsNullOrWhiteSpace(fullName)) throw new DomainException("El nombre es requerido.");
-            if (string.IsNullOrWhiteSpace(identificationNumber)) throw new DomainException("El número de identificación es requerido.");
-            if (string.IsNullOrWhiteSpace(email)) throw new DomainException("El correo electrónico es requerido.");
-            if (age < 0 || age > 99) throw new DomainException("La edad no es válida.");
-            if (string.IsNullOrWhiteSpace(phoneNumber)) throw new DomainException("El número de teléfono es requerido.");
-
-            FullName = fullName;
+            Name = name;
             IdentificationNumber = identificationNumber;
             IdentificationType = identificationType;
             Email = email;
-            Age = age;
-            PhoneNumber = phoneNumber;
+            BirthDate = birthDate;
+            Phone = phone;
+            IsDeleted = false;
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
         }
 
-        public void Update(string fullName, string email, int age, string phoneNumber)
+        public void Update(string name, string email, DateTime birthDate, string phone)
         {
-            if (!string.IsNullOrWhiteSpace(fullName)) FullName = fullName;
-            if (!string.IsNullOrWhiteSpace(email)) Email = email;
-            if (age > 0 && age < 99) Age = age;
-            if (!string.IsNullOrWhiteSpace(phoneNumber)) PhoneNumber = phoneNumber;
+            Name = name;
+            Email = email;
+            BirthDate = birthDate;
+            Phone = phone;
+            UpdatedAt = DateTime.UtcNow;
         }
-        public void IsDelitedClient()
+
+        public void MarkAsDeleted()
         {
             IsDeleted = true;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void Restore()
+        {
+            IsDeleted = false;
+            UpdatedAt = DateTime.UtcNow;
         }
     }
 }

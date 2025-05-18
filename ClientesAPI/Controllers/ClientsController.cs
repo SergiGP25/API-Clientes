@@ -1,5 +1,6 @@
 ﻿using Application.DTOs;
 using Application.Interfaces;
+using Azure.Messaging;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClientesAPI.Controllers
@@ -19,7 +20,11 @@ namespace ClientesAPI.Controllers
         public async Task<IActionResult> Create([FromBody] ClientCreateDto dto)
         {
             var id = await _service.CreateAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id }, new { Id = id });
+            return CreatedAtAction(nameof(GetById), new { id }, new
+            {
+              
+                Message = "Cliente creado extosanmente"
+            });
         }
 
         [HttpGet("{id:int}")]
@@ -41,7 +46,7 @@ namespace ClientesAPI.Controllers
         public async Task<IActionResult> Update(int id, [FromBody] ClientUpdateDto dto)
         {
             await _service.UpdateAsync(id, dto);
-            return NoContent();
+            return Ok(new { Message = "Cliente actualizado correctamente" });
         }
 
         [HttpDelete("{id:int}")]
