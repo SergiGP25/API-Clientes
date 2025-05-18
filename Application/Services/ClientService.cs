@@ -52,7 +52,7 @@ namespace Application.Services
         public async Task<ClientDto> GetByIdAsync(int id)
         {
             var client = await _repository.GetByIdAsync(id);
-            if (client == null) return null;
+            if (client == null) return ToDto(client);
 
             return ToDto(client);
         }

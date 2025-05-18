@@ -14,5 +14,13 @@ namespace Application.DTOs
         public string Email { get; set; }
         public DateTime BirthDate { get; set; }
         public string Phone { get; set; }
+        public ClientCreateDto()
+        {
+            Name = string.Empty;
+            IdentificationNumber = string.Empty;
+            Email = string.Empty;
+            Phone = string.Empty;
+        }
     }
+
 }

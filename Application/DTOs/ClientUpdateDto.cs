@@ -12,5 +12,11 @@ namespace Application.DTOs
         public string Email { get; set; }
         public DateTime BirthDate { get; set; }
         public string Phone { get; set; }
+        public ClientUpdateDto()
+        {
+            Name = string.Empty;
+            Email = string.Empty;
+            Phone = string.Empty;
+        }
     }
 }

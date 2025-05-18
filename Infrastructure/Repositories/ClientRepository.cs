@@ -35,7 +35,13 @@ namespace Infrastructure.Repositories
 
         public async Task<Client> GetByIdAsync(int id)
         {
-            return await _context.Clients.FindAsync(id);
+            var client = await _context.Clients.FindAsync(id);
+            if (client == null)
+            {
+                throw new KeyNotFoundException($"Cliente con ID {id} no encontrado.");
+               
+            }
+            return client;
         }
 
         public async Task<IEnumerable<Client>> GetAllAsync()
