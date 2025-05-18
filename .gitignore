@@ -100,3 +100,4 @@ appsettings.Local.json
 TestResults/
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.* 
+IntegrationTests/
