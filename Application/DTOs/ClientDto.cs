@@ -17,5 +17,12 @@ namespace Application.DTOs
         public string Phone { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public ClientDto()
+        {
+            Name = string.Empty;
+            IdentificationNumber = string.Empty;
+            Email = string.Empty;
+            Phone = string.Empty;
+        }
     }
 }

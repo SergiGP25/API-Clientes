@@ -63,8 +63,13 @@ namespace Application.Services
             return clients.Select(ToDto);
         }
 
-        private static ClientDto ToDto(Client client)
+        private static ClientDto? ToDto(Client? client)
         {
+            if (client == null)
+            {
+                return null;
+            }
+
             return new ClientDto
             {
                 Id = client.Id,
