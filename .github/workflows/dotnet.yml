@@ -7,36 +7,61 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-test:
+  analizar_codigo:
+    name: Analizar Código
     runs-on: ubuntu-latest
-    
+    steps:
+    - name: Checkout del código
+      uses: actions/checkout@v4
+
+    - name: Setup .NET SDK 8.0
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restaurar dependencias (análisis)
+      run: dotnet restore
+
+    - name: Build de la solución para análisis
+      run: dotnet build --no-restore
+
+    - name: Analizar código con SDK Style
+      run: dotnet build --no-restore --configuration Release /p:WarningLevel=1 /p:TreatWarningsAsErrors=true /p:CodeAnalysisRuleSet=MinimumRecommendedRules.ruleset
+
+    - name: Formatear código (opcional - solo verifica)
+      run: dotnet format --verify-no-changes --verbosity normal
+
+  build-and-test:
+    needs: analizar_codigo # Asegura que el análisis de código se complete con éxito
+    runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x
-    
+
     - name: Restore dependencies
       run: dotnet restore
-    
+
     - name: Build
       run: dotnet build --no-restore
-    
+
     - name: Test
       run: dotnet test --no-build --verbosity normal
-    
+
     - name: Build Docker image
       run: docker build -t api-clientes .
-    
+
     - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    
+
     - name: Push Docker image
       run: |
         docker tag api-clientes ${{ secrets.DOCKERHUB_USERNAME }}/api-clientes:latest
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/api-clientes:latest 
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/api-clientes:latest

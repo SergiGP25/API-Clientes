@@ -13,7 +13,6 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers()
     .AddFluentValidation(fv =>
     {
@@ -49,13 +48,19 @@ builder.Services.AddHealthChecksUI(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(connectionString));
-
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IClientService, ClientService>();
+if (!builder.Environment.IsEnvironment("Testing"))
+{
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlServer(connectionString));
+}
+
+builder.Logging.AddConsole();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Ejecutar migraciones automáticamente
 using (var scope = app.Services.CreateScope())
@@ -80,7 +85,7 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Clientes V1");
 });
 
-app.UseMiddleware<ExceptionMiddleware>();
+
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
@@ -100,3 +105,5 @@ app.MapHealthChecksUI(options =>
 
 app.MapControllers();
 app.Run();
+
+public partial class Program { }

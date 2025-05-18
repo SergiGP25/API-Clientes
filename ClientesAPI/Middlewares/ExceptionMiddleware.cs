@@ -17,14 +17,15 @@ namespace ClientesAPI.Middlewares
         }
 
         public async Task Invoke(HttpContext context)
-       {
+       
+        {
             try
             {
                 await _next(context);
             }
             catch (ValidationException vex) // FluentValidation
             {
-                _logger.LogWarning(vex, "Error de validación");
+                _logger.LogInformation(vex, "Error de validación");
 
                 var errorList = vex.Errors
                     .Select(e => e.ErrorMessage)
@@ -34,13 +35,13 @@ namespace ClientesAPI.Middlewares
             }
             catch (DomainException dex)
             {
-                _logger.LogWarning(dex, "Error de dominio");
+                _logger.LogInformation(dex, "Error de dominio");
 
                 await WriteResponseAsync(context, HttpStatusCode.BadRequest, new List<string> { dex.Message });
             }
             catch (KeyNotFoundException knf)
             {
-                _logger.LogWarning(knf, "Recurso no encontrado");
+                _logger.LogInformation(knf, "Recurso no encontrado");
 
                 await WriteResponseAsync(context, HttpStatusCode.NotFound, new List<string> { knf.Message });
             }
