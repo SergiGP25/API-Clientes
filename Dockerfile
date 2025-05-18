@@ -8,6 +8,7 @@ COPY ClientesAPI/*.csproj ./ClientesAPI/
 COPY Application/*.csproj ./Application/
 COPY Domain/*.csproj ./Domain/
 COPY Infrastructure/*.csproj ./Infrastructure/
+COPY IntegrationTests/*.csproj ./IntegrationTests/
 RUN dotnet restore
 
 # Copiar todo y compilar
