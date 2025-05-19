@@ -22,7 +22,7 @@ namespace ClientesAPI.Controllers
             var id = await _service.CreateAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id }, new
             {
-                Message = "Cliente creado extosanmente"
+                Message = "Customer successfully created"
             });
         }
 
@@ -45,7 +45,7 @@ namespace ClientesAPI.Controllers
         public async Task<IActionResult> Update(int id, [FromBody] ClientUpdateDto dto)
         {
             await _service.UpdateAsync(id, dto);
-            return Ok(new { Message = "Cliente actualizado correctamente" });
+            return Ok(new { Message = "Client successfully updated" });
         }
 
         [HttpDelete("{id:int}")]

@@ -35,7 +35,7 @@ namespace Application.Services
         public async Task UpdateAsync(int id, ClientUpdateDto dto)
         {
             var client = await _repository.GetByIdAsync(id);
-            if (client == null) throw new DomainException("Cliente no encontrado.");
+            if (client == null) throw new DomainException("Customer not found.");
 
             client.Update(dto.Name, dto.Email, dto.BirthDate, dto.Phone);
             await _repository.UpdateAsync(client);
@@ -44,7 +44,7 @@ namespace Application.Services
         public async Task DeleteAsync(int id)
         {
             var client = await _repository.GetByIdAsync(id);
-            if (client == null) throw new DomainException("Cliente no encontrado.");
+            if (client == null) throw new DomainException("Customer not found.");
 
             await _repository.DeleteAsync(client);
         }
