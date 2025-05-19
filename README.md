@@ -2,10 +2,26 @@
 
 API REST para la gestión de clientes desarrollada con .NET 8, Entity Framework Core y SQL Server.
 
+## Descripción
+
+Este proyecto es una API REST que proporciona endpoints para la gestión de clientes. Está construida siguiendo los principios de Clean Architecture y utiliza las mejores prácticas de desarrollo en .NET 8.
+
+## Características Principales
+
+- Arquitectura limpia (Clean Architecture)
+- Entity Framework Core para el acceso a datos
+- SQL Server como base de datos
+- Docker y Docker Compose para containerización
+- CI/CD con GitHub Actions
+- Swagger para documentación de API
+- Pruebas de integración incluidas
+
 ## Requisitos Previos
 
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Docker](https://www.docker.com/products/docker-desktop)
 - [Docker Compose](https://docs.docker.com/compose/install/)
+- [SQL Server Management Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms) (opcional)
 
 ## Estructura del Proyecto
 
@@ -14,24 +30,40 @@ API-Clientes/
 ├── ClientesAPI/          # Proyecto principal de la API
 ├── Application/          # Capa de aplicación (servicios, DTOs)
 ├── Domain/              # Capa de dominio (entidades, interfaces)
-└── Infrastructure/      # Capa de infraestructura (repositorios, DbContext)
+├── Infrastructure/      # Capa de infraestructura (repositorios, DbContext)
+└── IntegrationTests/    # Pruebas de integración
 ```
+
+## Tecnologías Utilizadas
+
+- .NET 8
+- Entity Framework Core
+- SQL Server 2022
+- Docker
+- GitHub Actions
+- Swagger/OpenAPI
+- xUnit (para pruebas)
 
 ## CI/CD Pipeline
 
-El proyecto incluye un pipeline de CI/CD configurado con GitHub Actions que:
+El proyecto incluye un pipeline de CI/CD configurado con GitHub Actions que se ejecuta en cada push a main y en pull requests. El pipeline está dividido en dos jobs principales:
 
-1. Se ejecuta en cada push a main y en pull requests
-2. Realiza las siguientes acciones:
-   - Restaura las dependencias
-   - Compila el proyecto
-   - Ejecuta las pruebas
-   - Construye la imagen Docker
-   - Publica la imagen en Docker Hub
+### 1. Análisis de Código Estático
+- Verifica el código fuente con SDK Style
+- Realiza análisis de código con reglas mínimas recomendadas
+- Verifica el formato del código
+- Asegura que no haya advertencias tratadas como errores
+
+### 2. Build y Test
+- Restaura las dependencias
+- Compila el proyecto
+- Ejecuta las pruebas unitarias
+- Construye la imagen Docker
+- Publica la imagen en Docker Hub
 
 ### Configuración del Pipeline
 
-Para que el pipeline funcione, necesitas configurar los siguientes secrets en tu repositorio de GitHub:
+Para que el pipeline funcione correctamente, necesitas configurar los siguientes secrets en tu repositorio de GitHub:
 
 - `DOCKERHUB_USERNAME`: Tu nombre de usuario en Docker Hub
 - `DOCKERHUB_TOKEN`: Tu token de acceso de Docker Hub
@@ -40,7 +72,17 @@ Para que el pipeline funcione, necesitas configurar los siguientes secrets en tu
 
 1. Ve a la pestaña "Actions" en tu repositorio de GitHub
 2. Selecciona el workflow "dotnet.yml"
-3. Verifica que las ejecuciones sean exitosas
+3. Verifica que ambos jobs se ejecuten exitosamente:
+   - Static Code Analysis
+   - Build and Test
+
+### Requisitos del Pipeline
+
+El pipeline requiere:
+- .NET SDK 8.0
+- Docker
+- Acceso a Docker Hub
+- Configuración correcta de los secrets
 
 ## Configuración de Docker
 
@@ -103,27 +145,29 @@ docker-compose ps
 
 ### 5. Migraciones
 
-Las migraciones de la base de datos se ejecutan automáticamente al iniciar la aplicación. No es necesario ejecutar comandos manualmente.
+Las migraciones de la base de datos se ejecutan automáticamente al iniciar la aplicación. Sin embargo, si necesitas ejecutarlas manualmente:
 
-## Migraciones en caso de cambios 
-
-Ejecutar en la terminal de la solucion general.
+```bash
+# Crear una nueva migración
 dotnet ef migrations add InitialCreate --project Infrastructure --startup-project ClientesAPI
 
+# Aplicar migraciones
 dotnet ef database update --project Infrastructure --startup-project ClientesAPI
+```
 
-## Montar la Base de datos de Docker en el local 
-ipconfig 
-Para saber la IP del PC la cual se coloca en el Servername del gestor.
-Usuario: sa
-Contraseña : YourStrong!Passw0rd
+## Conexión a la Base de Datos Local
 
-Encriptacion: Optional 
-Check Trust Server certificate.
+Para conectar SQL Server Management Studio a la base de datos en Docker:
+
+1. Obtén tu IP local con `ipconfig`
+2. Usa los siguientes parámetros:
+   - Server name: [Tu IP local]
+   - Authentication: SQL Server Authentication
+   - Login: sa
+   - Password: YourStrong!Passw0rd
+   - Trust Server Certificate: Opcional
 
 ## Variables de Entorno
-
-El archivo `docker-compose.yml` incluye las siguientes variables de entorno:
 
 ### API
 - `ASPNETCORE_ENVIRONMENT`: Development
