@@ -12,7 +12,7 @@ namespace Application.Interfaces
         Task<int> CreateAsync(ClientCreateDto dto);
         Task UpdateAsync(int id, ClientUpdateDto dto);
         Task DeleteAsync(int id);
-        Task<ClientDto> GetByIdAsync(int id);
-        Task<IEnumerable<ClientDto>> GetAllAsync();
+        Task<ClientDto?> GetByIdAsync(int id);
+        Task<IEnumerable<ClientDto?>> GetAllAsync();
     }
 }

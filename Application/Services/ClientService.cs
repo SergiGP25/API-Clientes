@@ -55,10 +55,10 @@ namespace Application.Services
             return ToDto(client);
         }
 
-        public async Task<IEnumerable<ClientDto>> GetAllAsync()
+        public async Task<IEnumerable<ClientDto?>> GetAllAsync()
         {
             var clients = await _repository.GetAllAsync();
-            return clients.Select(ToDto).Where(dto => dto != null).ToList();
+            return clients.Select(ToDto).ToList();
         }
 
         private static ClientDto? ToDto(Client? client)
