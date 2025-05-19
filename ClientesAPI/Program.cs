@@ -29,15 +29,18 @@ if (string.IsNullOrEmpty(connectionString))
 }
 // Configuración de Health Checks
 builder.Services.AddHealthChecks()
+    .AddCheck("api", () => HealthCheckResult.Healthy("API está funcionando"), tags: new[] { "api" })
     .AddDbContextCheck<AppDbContext>(
         name: "database",
         failureStatus: HealthStatus.Degraded,
         tags: new[] { "db" });
-// Configuración de Health Checks UI
+
 builder.Services.AddHealthChecksUI(options =>
 {
-    options.SetEvaluationTimeInSeconds(15); // Tiempo de evaluación
-    options.MaximumHistoryEntriesPerEndpoint(50); // Número máximo de entradas en el historial
+    options.SetEvaluationTimeInSeconds(15);
+    options.MaximumHistoryEntriesPerEndpoint(50);
+    options.AddHealthCheckEndpoint("API", "http://localhost/health-api");
+    options.AddHealthCheckEndpoint("Base de Datos", "http://localhost/health-db");
 })
 .AddInMemoryStorage();
 
@@ -82,24 +85,23 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Clientes V1");
 });
 
-
 app.UseHttpsRedirection();
 app.UseAuthorization();
-
-// Endpoint de Health Check con respuesta UI amigable
-app.MapHealthChecks("/health", new HealthCheckOptions
+app.MapHealthChecks("/health-api", new HealthCheckOptions
 {
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
-    Predicate = _ => true
+    Predicate = check => check.Tags.Contains("api"),
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
-
-// Endpoint para UI de Health Checks
+app.MapHealthChecks("/health-db", new HealthCheckOptions
+{
+    Predicate = check => check.Tags.Contains("db"),
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 app.MapHealthChecksUI(options =>
 {
     options.UIPath = "/health-ui";
-    options.ApiPath = "/health-api";
+    options.ApiPath = "/health-ui-api";
 });
-
 app.MapControllers();
 app.Run();
 
