@@ -32,19 +32,12 @@ builder.Services.AddHealthChecks()
     .AddDbContextCheck<AppDbContext>(
         name: "database",
         failureStatus: HealthStatus.Degraded,
-        tags: new[] { "db" })
-    .AddSqlServer(
-        connectionString,
-        name: "sql-server",
-        failureStatus: HealthStatus.Degraded,
-        tags: new[] { "db", "sql" });
-
+        tags: new[] { "db" });
 // Configuración de Health Checks UI
 builder.Services.AddHealthChecksUI(options =>
 {
     options.SetEvaluationTimeInSeconds(15); // Tiempo de evaluación
     options.MaximumHistoryEntriesPerEndpoint(50); // Número máximo de entradas en el historial
-    options.AddHealthCheckEndpoint("API", "/health"); // Añadir endpoint para monitoreo
 })
 .AddInMemoryStorage();
 

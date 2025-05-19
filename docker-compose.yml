@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "7179:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Server=db;Database=Clients;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True
@@ -22,6 +22,20 @@ services:
       - "1433:1433"
     volumes:
       - sqldata:/var/opt/mssql
+
+  healthchecksui:
+    image: xabaril/healthchecksui:latest
+    ports:
+      - "1433:1433" 
+    environment:
+      - HealthChecks__0__Name=API de Clientes
+      - HealthChecks__0__Uri=http://api:80/health # Si tu endpoint /health responde en HTTP puerto 80 interno
+      # - HealthChecks__0__Uri=https://api:7179/health # Si tu endpoint /health responde en HTTPS puerto 7179 interno
+      - HealthChecksUI__HealthChecks--0__Uri=http://api:80/health # Si tu endpoint /health responde en HTTP puerto 80 interno
+      # - HealthChecksUI__HealthChecks--0__Uri=https://api:7179/health # Si tu endpoint /health responde en HTTPS puerto 7179 interno
+      - HealthChecksUI__HealthChecks--0__Name=API de Clientes
+    depends_on:
+      - api
 
 volumes:
   sqldata: 
