@@ -23,6 +23,10 @@ builder.Services.AddControllers()
 // Configuración de la conexión a la base de datos
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("La cadena de conexión 'DefaultConnection' no está configurada.");
+}
 // Configuración de Health Checks
 builder.Services.AddHealthChecks()
     .AddDbContextCheck<AppDbContext>(
