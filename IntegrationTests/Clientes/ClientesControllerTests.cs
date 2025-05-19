@@ -34,7 +34,6 @@ public class ClientsControllerTests : IClassFixture<CustomWebApplicationFactory>
     [Fact]
     public async Task GetClientById_ShouldReturnClient()
     {
-        // Arrange
         var client = new ClientCreateDto
         {
             Name = "Ana Ruiz",
@@ -45,17 +44,14 @@ public class ClientsControllerTests : IClassFixture<CustomWebApplicationFactory>
             BirthDate = new DateTime(1990, 5, 10)
         };
 
-        // Act - POST
         var post = await _client.PostAsJsonAsync("/api/v1/clients", client);
         var id = ExtractIdFromLocation(post);
 
-        // Act - GET
         var response = await _client.GetAsync($"/api/v1/clients/{id}");
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var responseBody = await response.Content.ReadAsStringAsync();
 
-        // Assert - Validar contenido del body como string
         responseBody.Should().Contain("Ana Ruiz");
         responseBody.Should().Contain("123456789");
         responseBody.Should().Contain("ana.ruiz@example.com");

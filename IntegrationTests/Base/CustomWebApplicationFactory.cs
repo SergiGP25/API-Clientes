@@ -9,23 +9,20 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.UseEnvironment("Testing"); // Importante para evitar SQL Server
+        builder.UseEnvironment("Testing");
 
         builder.ConfigureServices(services =>
-        {
-            // 🔴 Eliminar el DbContext registrado previamente (con SQL Server)
+        {           
             var descriptor = services.SingleOrDefault(
                 d => d.ServiceType == typeof(DbContextOptions<AppDbContext>));
             if (descriptor != null)
                 services.Remove(descriptor);
-
-            // ✅ Re-registrar el DbContext con InMemory
+           
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseInMemoryDatabase("TestDb");
             });
 
-            // ✅ Crear base de datos en memoria dentro del mismo scope
             var sp = services.BuildServiceProvider();
 
             using var scope = sp.CreateScope();
