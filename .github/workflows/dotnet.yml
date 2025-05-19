@@ -7,8 +7,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  analizar_codigo:
-    name: Analizar Código
+  static_code_analysis:
+    name: Static Code Analysis
     runs-on: ubuntu-latest
     steps:
     - name: Checkout del código
@@ -32,7 +32,7 @@ jobs:
       run: dotnet format --verify-no-changes --verbosity normal
 
   build-and-test:
-    needs: analizar_codigo # Asegura que el análisis de código se complete con éxito
+    needs: static_code_analysis # Asegura que el análisis de código se complete con éxito
     runs-on: ubuntu-latest
 
     steps:
