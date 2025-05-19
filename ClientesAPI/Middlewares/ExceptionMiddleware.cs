@@ -16,7 +16,7 @@ namespace ClientesAPI.Middlewares
             _logger = logger;
         }
 
-        public async Task Invoke(HttpContext context)      
+        public async Task Invoke(HttpContext context)
         {
             try
             {
@@ -51,7 +51,6 @@ namespace ClientesAPI.Middlewares
                 await WriteResponseAsync(context, HttpStatusCode.InternalServerError, new List<string> { "Ocurrió un error inesperado." });
             }
         }
-
         private async Task WriteResponseAsync(HttpContext context, HttpStatusCode statusCode, List<string> errors)
         {
             context.Response.ContentType = "application/json";
