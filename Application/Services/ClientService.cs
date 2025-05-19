@@ -49,7 +49,7 @@ namespace Application.Services
             await _repository.DeleteAsync(client);
         }
 
-        public async Task<ClientDto> GetByIdAsync(int id)
+        public async Task<ClientDto?> GetByIdAsync(int id)
         {
             var client = await _repository.GetByIdAsync(id);
             return ToDto(client);
@@ -58,7 +58,7 @@ namespace Application.Services
         public async Task<IEnumerable<ClientDto>> GetAllAsync()
         {
             var clients = await _repository.GetAllAsync();
-            return clients.Select(ToDto);
+            return clients.Select(ToDto).Where(dto => dto != null).ToList();
         }
 
         private static ClientDto? ToDto(Client? client)
