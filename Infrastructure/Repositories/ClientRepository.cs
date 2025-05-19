@@ -39,7 +39,6 @@ namespace Infrastructure.Repositories
             if (client == null)
             {
                 throw new KeyNotFoundException($"Cliente con ID {id} no encontrado.");
-               
             }
             return client;
         }

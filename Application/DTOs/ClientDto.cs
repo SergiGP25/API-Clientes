@@ -11,7 +11,7 @@ namespace Application.DTOs
         public int Id { get; set; }
         public string Name { get; set; }
         public string IdentificationNumber { get; set; }
-        public string IdentificationType { get; set; } 
+        public string IdentificationType { get; set; }
         public string Email { get; set; }
         public int Age { get; set; }
         public string Phone { get; set; }
